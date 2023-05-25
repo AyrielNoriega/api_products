@@ -10,6 +10,11 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -33,7 +38,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         $product = new ProductResource($product);
-        return $product;
+        return new ProductResource($product);
     }
 
     /**
@@ -42,6 +47,7 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, Product $product)
     {
         $product->update($request->all());
+        return new ProductResource($product);
     }
 
     /**

@@ -19,6 +19,9 @@ class ProductFactory extends Factory
         return [
             'name' => fake()->name(),
             'price' => fake()->numberBetween(10000, 60000),
+            'user_id' => function () {
+                return \App\Models\User::query()->inRandomOrder()->first()->id;
+            },
         ];
     }
 }
