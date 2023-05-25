@@ -18,6 +18,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('products', App\Http\Controllers\ProductController::class)->middleware('auth:sanctum');
+Route::resource('products', App\Http\Controllers\ProductController::class);
 
 Route::post('sanctum/token', App\Http\Controllers\UserTokenController::class);
