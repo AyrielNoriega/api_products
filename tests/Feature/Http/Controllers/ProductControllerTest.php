@@ -41,7 +41,8 @@ class ProductControllerTest extends TestCase
         $user = User::factory()->create();
 
         $data = [
-            'name' => 'Nuevo producto',
+            'title' => 'Nuevo producto',
+            'description' => 'It is a long established fact that a reader will be distracted.',
             'price' => 1000,
             'user_id' => $user->id,
         ];
@@ -76,7 +77,8 @@ class ProductControllerTest extends TestCase
         $product = Product::factory()->create();
         
         $data = [
-            'name' => 'Update Product',
+            'title' => 'Nuevo producto',
+            'description' => 'It is a long established fact that a reader will be distracted.',
             'price' => 20000,
         ];
 
