@@ -2,12 +2,14 @@
 
 namespace Tests\Feature\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 use Laravel\Sanctum\Sanctum;
+
+use App\Models\Product;
 use App\Models\User;
+
 class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
@@ -19,9 +21,10 @@ class ProductControllerTest extends TestCase
 
     public function test_index()
     {
+        User::factory()->count(5)->create();
         Product::factory()->count(5)->create(); 
 
-        $response = $this->getJson('/api/products');
+        $response = $this->getJson('/api/v1/products');
 
         $response->assertSuccessful();
         $response->assertHeader('content-type', 'application/json');
@@ -35,14 +38,17 @@ class ProductControllerTest extends TestCase
             ['*']
         );
 
+        $user = User::factory()->create();
+
         $data = [
             'name' => 'Nuevo producto',
             'price' => 1000,
+            'user_id' => $user->id,
         ];
 
        // $data = Product::factory(1)->create(); 
         
-        $response = $this->postJson('/api/products', $data);
+        $response = $this->postJson('/api/v1/products', $data);
 
         $response->assertSuccessful();
         $response->assertHeader('content-type', 'application/json');
@@ -51,9 +57,10 @@ class ProductControllerTest extends TestCase
 
     public function test_show_product()
     {
+        User::factory()->count(5)->create();
         $product = Product::factory()->create();
 
-        $response = $this->getJson("/api/products/{$product->getKey()}");
+        $response = $this->getJson("/api/v1/products/{$product->getKey()}");
 
         $response->assertSuccessful();
         $response->assertHeader('content-type', 'application/json');
@@ -73,7 +80,7 @@ class ProductControllerTest extends TestCase
             'price' => 20000,
         ];
 
-        $response = $this->patchJson("/api/products/{$product->getKey()}", $data);
+        $response = $this->patchJson("/api/v1/products/{$product->getKey()}", $data);
         $response->assertSuccessful();
         $response->assertHeader('content-type', 'application/json');
     }
@@ -87,7 +94,7 @@ class ProductControllerTest extends TestCase
 
         $product = Product::factory()->create();
 
-        $response = $this->deleteJson("/api/products/{$product->getKey()}");
+        $response = $this->deleteJson("/api/v1/products/{$product->getKey()}");
 
         $response->assertSuccessful();
         $response->assertHeader('content-type', 'application/json');
